@@ -29,7 +29,7 @@ public class TimeService {
   }
 
   public String getCurrentDateTime(@PathVariable("zone") ZoneId zoneId) {
-    return LocalDateTime.now(zoneId).format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    return LocalDateTime.now(zoneId).format(DateTimeFormatter.ISO_DATE_TIME);
   }
 
   public TimeResponse getCurrentDateTime2(@RequestBody TimeRequest model) {
