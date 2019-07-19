@@ -9,11 +9,15 @@
 
 package de.cegeka.springboot.demoapi.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.cegeka.springboot.demoapi.model.TemperatureDAO;
 import de.cegeka.springboot.demoapi.services.TemperatureService;
 import de.cegeka.springboot.demoapi.services.TemperatureService.TemperatureLevel;
 import io.swagger.annotations.ApiOperation;
@@ -36,4 +40,26 @@ public class TemperatureController {
   public TemperatureLevel analyze(@ApiParam(value = "Temperature as float value", required = true) @PathVariable("value") float value) {
     return service.analyze(value);
   }
+  
+  @PostMapping("/{value}")
+  @ApiOperation(value = "Saves the given temperature in the database")
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "Save successful") })
+  public TemperatureDAO save(@ApiParam(value = "Temperature as float value", required = true) @PathVariable("value") float value) {
+    return service.saveTemperature(value);
+  }
+
+  @GetMapping("/latest")
+  @ApiOperation(value = "Gives the latest temperature from the database")
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "Get successful") })
+  public TemperatureDAO getLatest() {
+    return service.getLatest();
+  }
+
+  @GetMapping("/higher/{value}")
+  @ApiOperation(value = "Gives a list with temperature higher than the given temperatures")
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "Get successful") })
+  public List<TemperatureDAO> getTemperaturesHigherThan(@ApiParam(value = "Temperature as float value", required = true) @PathVariable("value") float value) {
+    return service.getTemperaturesHigherThan(value);
+  }
+
 }

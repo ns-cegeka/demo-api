@@ -11,13 +11,19 @@ package de.cegeka.springboot.demoapi.services;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDateTime;
+
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import de.cegeka.springboot.demoapi.exceptions.TemperatureOutOfScopeException;
+import de.cegeka.springboot.demoapi.model.TemperatureDAO;
+import de.cegeka.springboot.demoapi.repositories.TemperatureRepository;
 import de.cegeka.springboot.demoapi.services.TemperatureService.TemperatureLevel;
 
 public class TemperatureServiceTest {
-  private TemperatureService service = new TemperatureService();
+  private TemperatureRepository repository = Mockito.mock(TemperatureRepository.class);
+  private TemperatureService service = new TemperatureService(repository);
   
   @Test(expected = TemperatureOutOfScopeException.class)
   public void testTemperatureThrowsException() {
@@ -42,6 +48,18 @@ public class TemperatureServiceTest {
   @Test
   public void testTemperatureIsHot() {
     assertEquals(TemperatureLevel.HOT, service.analyze(31));
+  }
+  
+  @Test
+  public void testSave() {
+    TemperatureDAO saveDAO = new TemperatureDAO(null, 10f, null);
+    TemperatureDAO expectedDAO = new TemperatureDAO(1L, 10f, LocalDateTime.now());
+    
+    Mockito.when(repository.save(saveDAO)).thenReturn(expectedDAO);
+    TemperatureDAO dao = service.saveTemperature(10f);
+    
+    assertEquals(expectedDAO.getId(), dao.getId());
+    assertEquals(Float.valueOf(expectedDAO.getTemperature()), Float.valueOf(dao.getTemperature()));
   }
 
 }

@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.cegeka.springboot.demoapi.model.ApiError;
+import de.cegeka.springboot.demoapi.repositories.TemperatureRepository;
 import de.cegeka.springboot.demoapi.services.CompanyService;
 import de.cegeka.springboot.demoapi.services.TemperatureService;
 import de.cegeka.springboot.demoapi.services.TemperatureService.TemperatureLevel;
@@ -37,6 +38,9 @@ import de.cegeka.springboot.demoapi.services.TemperatureService.TemperatureLevel
 public class TemperatureControllerTest {
   @MockBean
   private CompanyService companyService;
+
+  @MockBean
+  private TemperatureRepository repository;
 
   @Autowired
   private MockMvc mvc;

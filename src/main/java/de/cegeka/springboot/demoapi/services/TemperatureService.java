@@ -9,9 +9,13 @@
 
 package de.cegeka.springboot.demoapi.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import de.cegeka.springboot.demoapi.exceptions.TemperatureOutOfScopeException;
+import de.cegeka.springboot.demoapi.model.TemperatureDAO;
+import de.cegeka.springboot.demoapi.repositories.TemperatureRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -19,6 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 public class TemperatureService {
   public enum TemperatureLevel {
     VERY_COLD, COLD, WARM, HOT;
+  }
+  
+  private TemperatureRepository repository;
+  
+  public TemperatureService(TemperatureRepository repository) {
+    this.repository = repository;
   }
   
   public TemperatureLevel analyze(float temperature) {
@@ -45,4 +55,20 @@ public class TemperatureService {
       return level;
     }
   }
+  
+  public TemperatureDAO saveTemperature(float temperature) {
+    TemperatureDAO dao = new TemperatureDAO();
+    dao.setTemperature(temperature);
+    
+    return repository.save(dao);
+  }
+  
+  public TemperatureDAO getLatest() {
+    return repository.findFirst1ByOrderByDateTimeDesc();
+  }
+
+  public List<TemperatureDAO> getTemperaturesHigherThan(float temperature) {
+    return repository.getTemperaturesHigherThan(temperature);
+  }
+
 }
