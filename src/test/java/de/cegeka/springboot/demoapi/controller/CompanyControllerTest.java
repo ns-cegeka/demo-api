@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +37,7 @@ public class CompanyControllerTest {
   private CompanyService service;
   
   @Test
+  @WithMockUser(roles = "INFO")
   public void testGetCompanyInfo() throws UnsupportedEncodingException, Exception {
     Mockito.when(service.getInfo()).thenReturn("company info");
     String result = mvc.perform(get("/company/info")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -43,10 +45,22 @@ public class CompanyControllerTest {
   }
   
   @Test
+  @WithMockUser(roles = "INFO")
   public void testGetCompanyName() throws UnsupportedEncodingException, Exception {
     Mockito.when(service.getName()).thenReturn("company name");
     String result = mvc.perform(get("/company/name")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     assertEquals("company name", result);
+  }
+
+  @Test
+  public void testGetCompanyInfoRedirectToLogin() throws UnsupportedEncodingException, Exception {
+    mvc.perform(get("/company/info")).andExpect(status().is3xxRedirection());
+  }
+
+  @Test
+  @WithMockUser("user")
+  public void testGetCompanyInfoIsForbidden() throws UnsupportedEncodingException, Exception {
+    mvc.perform(get("/company/info")).andExpect(status().isForbidden());
   }
 
 }
