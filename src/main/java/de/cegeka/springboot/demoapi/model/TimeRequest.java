@@ -11,6 +11,8 @@ package de.cegeka.springboot.demoapi.model;
 
 import java.time.ZoneId;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(description = "Model for getting the current time of a timezone")
 public class TimeRequest {
+  @ApiModelProperty(value = "Zone ID for the request")
   private ZoneId zoneId;
 }
