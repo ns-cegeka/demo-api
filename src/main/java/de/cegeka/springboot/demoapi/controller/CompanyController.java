@@ -9,12 +9,14 @@
 
 package de.cegeka.springboot.demoapi.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.cegeka.springboot.demoapi.services.CompanyService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
