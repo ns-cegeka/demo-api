@@ -13,7 +13,6 @@ import java.time.ZoneId;
 import java.util.Set;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,6 @@ import de.cegeka.springboot.demoapi.model.TimeRequest;
 import de.cegeka.springboot.demoapi.model.TimeResponse;
 import de.cegeka.springboot.demoapi.services.TimeService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/time")
 public class TimeController {
