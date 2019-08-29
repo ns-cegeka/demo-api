@@ -54,7 +54,7 @@ public class CompanyControllerTest {
 
   @Test
   public void testGetCompanyInfoRedirectToLogin() throws UnsupportedEncodingException, Exception {
-    mvc.perform(get("/company/info")).andExpect(status().is3xxRedirection());
+    mvc.perform(get("/company/info")).andExpect(status().isUnauthorized());
   }
 
   @Test

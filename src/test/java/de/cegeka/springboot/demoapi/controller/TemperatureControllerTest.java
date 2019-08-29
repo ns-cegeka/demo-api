@@ -69,7 +69,7 @@ public class TemperatureControllerTest {
 
   @Test
   public void testAnalyzeIsRedirectToLogin() throws UnsupportedEncodingException, Exception {
-    mvc.perform(get("/temp/22")).andExpect(status().is3xxRedirection());
+    mvc.perform(get("/temp/22")).andExpect(status().isUnauthorized());
   }
 
   @Test
